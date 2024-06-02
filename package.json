@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@firebase/messaging-compat": "0.2.9",
     "@reduxjs/toolkit": "^2.2.5",
     "avatar-reactjs": "^1.0.5",
+    "firebase": "^10.12.2",
+    "firebase-tools": "^13.10.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
