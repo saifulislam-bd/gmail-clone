@@ -5,8 +5,10 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { CiCircleQuestion, CiSettings } from "react-icons/ci";
 import { PiDotsNineBold } from "react-icons/pi";
 import AvatarReactjs from "avatar-reactjs";
+import { useState } from "react";
 
 const Navbar = () => {
+  const [searchText, setSearchText] = useState("");
   return (
     <nav className="flex items-center justify-between mx-3 min-h-16 ">
       <div className="flex items-center gap-10 ">
@@ -25,7 +27,9 @@ const Navbar = () => {
           <IoIosSearch size={"24px"} className="text-gray-700" />
           <input
             type="text"
+            value={searchText}
             placeholder="Search mail"
+            onChange={(e) => setSearchText(e.target.value)}
             className="w-full rounded-full bg-transparent outline-none px-1"
           />
         </div>
