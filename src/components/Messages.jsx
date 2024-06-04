@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Message from "./Message";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
@@ -7,7 +7,8 @@ import { setEmails } from "./redux/appSlice";
 
 const Messages = () => {
   const dispatch = useDispatch();
-  const { allEmail } = useSelector((state) => state.appSlice);
+  const { allEmail, searchText } = useSelector((state) => state.appSlice);
+  const [tempEmails, setTempEmails] = useState(allEmail);
 
   useEffect(() => {
     const q = query(collection(db, "emails"), orderBy("createdAt", "desc"));
@@ -23,10 +24,22 @@ const Messages = () => {
     //cleanup
     return () => unsubscribe();
   }, [dispatch]);
+
+  useEffect(() => {
+    const filteredEmails = allEmail?.filter((email) => {
+      return (
+        email?.subject?.toLowerCase().includes(searchText.toLowerCase()) ||
+        email?.to?.toLowerCase().includes(searchText.toLowerCase()) ||
+        email?.message?.toLowerCase().includes(searchText.toLowerCase())
+      );
+    });
+    setTempEmails(filteredEmails);
+  }, [searchText, allEmail]);
+
   return (
     <div>
-      {allEmail &&
-        allEmail?.map((email, i) => <Message email={email} key={i} />)}
+      {tempEmails &&
+        tempEmails?.map((email, i) => <Message email={email} key={i} />)}
     </div>
   );
 };
